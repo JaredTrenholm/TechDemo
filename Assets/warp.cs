@@ -12,8 +12,9 @@ public class warp : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            other.gameObject.GetComponent<CharacterController>().Move(-other.gameObject.transform.position);
-            other.gameObject.GetComponent<CharacterController>().Move(target.transform.position);
+            other.gameObject.GetComponent<Collider>().enabled = false;
+            other.gameObject.transform.position = target.transform.position;
+            other.gameObject.GetComponent<Collider>().enabled = true;
             player.PlayOneShot(Teleport);
 
         }

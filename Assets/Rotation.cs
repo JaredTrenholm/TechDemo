@@ -12,18 +12,16 @@ public class Rotation : MonoBehaviour
 
     private void Start()
     {
-        rotate.x = rotate.x * Time.deltaTime;
-        rotate.y = rotate.y * Time.deltaTime;
-        rotate.z = rotate.z * Time.deltaTime;
+       rotate.x = rotate.x * Time.deltaTime;
+       rotate.y = rotate.y * Time.deltaTime;
+       rotate.z = rotate.z * Time.deltaTime;
     }
 
     private void Update()
     {
-        if (collected == false)
-        {
+        
             this.gameObject.transform.Rotate(rotate, Space.World);
-        }
-        else
+        if(collected == true)
         {
             if(timePassed > respawnTime)
             {

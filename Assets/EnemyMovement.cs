@@ -23,9 +23,8 @@ public class EnemyMovement : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "EnemyWall")
-        {
+        
             MovePath = -MovePath;
-        }
+        
     }
 }

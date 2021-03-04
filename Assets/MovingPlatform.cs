@@ -14,6 +14,7 @@ public class MovingPlatform : MonoBehaviour
     private Vector3 OriginalMovePath;
 
     bool isMoving = false;
+    bool isReturning = false;
     bool Activated = false;
     void Start()
     {
@@ -29,12 +30,18 @@ public class MovingPlatform : MonoBehaviour
             this.gameObject.transform.Translate(movePath);
             player.GetComponent<CharacterController>().Move(movePath);
         }
+
+        if (isReturning)
+        {
+            this.gameObject.transform.Translate(movePath);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "MovingPlatformZ") {
             isMoving = false;
+            isReturning = false;
         } else if (other.gameObject.tag == "Player")
         {
             if(Activated == false)
@@ -43,6 +50,7 @@ public class MovingPlatform : MonoBehaviour
                 background.Stop();
                 movePath = OriginalMovePath;
             isMoving = true;
+                isReturning = false;
             Activated = true;
             }
         }
@@ -58,7 +66,8 @@ public class MovingPlatform : MonoBehaviour
                 playerSource.Stop();
                 background.Play();
                 movePath = -movePath;
-                isMoving = true;
+                isMoving = false;
+                isReturning = true;
                 Activated = false;
             }
         }

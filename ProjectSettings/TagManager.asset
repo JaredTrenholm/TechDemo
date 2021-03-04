@@ -13,6 +13,9 @@ TagManager:
   - MovingPlatform
   - MovingPlatformZ
   - EnemyWall
+  - Spawner
+  - SpawnedCube
+  - Victory
   layers:
   - Default
   - TransparentFX

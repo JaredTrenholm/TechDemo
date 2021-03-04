@@ -7,8 +7,8 @@ public class TwoPartDoor : MonoBehaviour
     public GameObject TopDoor;
     public GameObject BottomDoor;
 
-    public AudioSource playerAudio;
     public AudioClip doorOpen;
+
 
     public Vector3 MovePath;
     private Vector3 TopMovePath;
@@ -27,6 +27,8 @@ public class TwoPartDoor : MonoBehaviour
     private bool closing = false;
     private bool closed = true;
 
+    private int AmountEntered = 0;
+
     private void Start()
     {
         TopMovePath = MovePath;
@@ -43,6 +45,18 @@ public class TwoPartDoor : MonoBehaviour
 
         private void Update()
         {
+        if(opening == true || closing == true)
+        {
+
+            if (this.gameObject.GetComponent<AudioSource>().isPlaying == doorOpen)
+            {
+
+            }
+            else
+            {
+                this.gameObject.GetComponent<AudioSource>().PlayOneShot(doorOpen);
+            }
+        }
             if(BottomOpened == true && TopOpened == true)
             {
                 opening = false;
@@ -99,34 +113,62 @@ public class TwoPartDoor : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
 
 
+        AmountEntered = AmountEntered + 1;
             if (closed == true)
             {
                 closed = false;
                 opening = true;
-                playerAudio.PlayOneShot(doorOpen);
+                this.gameObject.GetComponent<AudioSource>().PlayOneShot(doorOpen);
 
             }
+        } else if (other.tag == "SpawnedCube")
+        {
+
+
+            AmountEntered = AmountEntered + 1;
+            if (closed == true)
+            {
+                closed = false;
+                opening = true;
+                this.gameObject.GetComponent<AudioSource>().PlayOneShot(doorOpen);
+
+            }
+
+
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        AmountEntered = AmountEntered - 1;
+        if (AmountEntered == 0)
         {
 
 
-            if (open == true)
+            if (other.tag == "Player")
+            {
+
+
+
+                open = false;
+                opening = false;
+                closing = true;
+                this.gameObject.GetComponent<AudioSource>().PlayOneShot(doorOpen);
+
+
+            }
+            else if (other.tag == "SpawnedCube")
             {
                 open = false;
+                opening = false;
                 closing = true;
-                playerAudio.PlayOneShot(doorOpen);
-
+                this.gameObject.GetComponent<AudioSource>().PlayOneShot(doorOpen);
             }
         }
     }
@@ -141,7 +183,7 @@ public class TwoPartDoor : MonoBehaviour
             {
                 open = false;
                 closing = true;
-                playerAudio.PlayOneShot(doorOpen);
+                this.gameObject.GetComponent<AudioSource>().PlayOneShot(doorOpen);
 
             }
         }
